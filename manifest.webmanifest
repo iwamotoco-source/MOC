@@ -1,1 +1,19 @@
-eyJiYWNrZ3JvdW5kX2NvbG9yIjoiI2ZmZmZmZiIsImRlc2NyaXB0aW9uIjoiQXBwIFN0b3Jl44Gu6KO95ZOB44Oa44O844K444KS5a6f5a+444Gn5YaN54++44GX44CB55S75YOP44Go5paH56ug44KS6Ieq55Sx44Gr5beu44GX5pu/44GI44Gm56K66KqN44Gn44GN44KL44Oi44OD44Kv44OE44O844OrIiwiZGlzcGxheSI6InN0YW5kYWxvbmUiLCJpY29ucyI6W3sic2l6ZXMiOiIxOTJ4MTkyIiwic3JjIjoiaWNvbi0xOTIucG5nIiwidHlwZSI6ImltYWdlL3BuZyJ9LHsic2l6ZXMiOiI1MTJ4NTEyIiwic3JjIjoiaWNvbi01MTIucG5nIiwidHlwZSI6ImltYWdlL3BuZyJ9LHsicHVycG9zZSI6Im1hc2thYmxlIiwic2l6ZXMiOiI1MTJ4NTEyIiwic3JjIjoiaWNvbi01MTIucG5nIiwidHlwZSI6ImltYWdlL3BuZyJ9XSwibGFuZyI6ImphIiwibmFtZSI6Ik1PQyDigJQgQXBwIFN0b3JlIOODouODg+OCryIsInNjb3BlIjoiLi8iLCJzaG9ydF9uYW1lIjoiTU9DIiwic3RhcnRfdXJsIjoiLi8iLCJ0aGVtZV9jb2xvciI6IiNmZmZmZmYifQ==
+{
+  "background_color": "#ffffff",
+  "description": "App Storeの製品ページを実寸で再現し、画像と文章を自由に差し替えて確認できるモックツール",
+  "display": "standalone",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "lang": "ja",
+  "name": "MOC — App Store モック",
+  "scope": "./",
+  "short_name": "MOC",
+  "start_url": "./",
+  "theme_color": "#ffffff"
+}
