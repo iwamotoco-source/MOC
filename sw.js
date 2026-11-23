@@ -1,1 +1,40 @@
-LyogTU9DIHNlcnZpY2Ugd29ya2VyOiBjYWNoZS1maXJzdCBmb3Igc2FtZS1vcmlnaW4gR0VUcyAqLwp2YXIgQ0FDSEUgPSAibW9jLXYxIjsKdmFyIENPUkUgPSBbCiAgIi4vIiwKICAiLi9pbmRleC5odG1sIiwKICAiLi9tYW5pZmVzdC53ZWJtYW5pZmVzdCIsCiAgIi4vaWNvbi0xOTIucG5nIiwKICAiLi9pY29uLTUxMi5wbmciLAogICIuL2FwcGxlLXRvdWNoLWljb24ucG5nIiwKICAiLi9hc3NldHMvYXBwaWNvbi53ZWJwIiwKICAiLi9hc3NldHMvc3MxLndlYnAiLAogICIuL2Fzc2V0cy9zczIud2VicCIsCiAgIi4vYXNzZXRzL3NzMy53ZWJwIiwKICAiLi9hc3NldHMvc3M0LndlYnAiLAogICIuL2Fzc2V0cy9zczUud2VicCIsCiAgIi4vYXNzZXRzL3NzNi53ZWJwIgpdOwpzZWxmLmFkZEV2ZW50TGlzdGVuZXIoImluc3RhbGwiLCBmdW5jdGlvbihlKXsKICBlLndhaXRVbnRpbCgKICAgIGNhY2hlcy5vcGVuKENBQ0hFKS50aGVuKGZ1bmN0aW9uKGMpeyByZXR1cm4gYy5hZGRBbGwoQ09SRSk7IH0pLnRoZW4oZnVuY3Rpb24oKXsgcmV0dXJuIHNlbGYuc2tpcFdhaXRpbmcoKTsgfSkKICApOwp9KTsKc2VsZi5hZGRFdmVudExpc3RlbmVyKCJhY3RpdmF0ZSIsIGZ1bmN0aW9uKGUpewogIGUud2FpdFVudGlsKAogICAgY2FjaGVzLmtleXMoKS50aGVuKGZ1bmN0aW9uKGtleXMpewogICAgICByZXR1cm4gUHJvbWlzZS5hbGwoa2V5cy5tYXAoZnVuY3Rpb24oayl7IGlmKGsgIT09IENBQ0hFKSByZXR1cm4gY2FjaGVzLmRlbGV0ZShrKTsgfSkpOwogICAgfSkudGhlbihmdW5jdGlvbigpeyByZXR1cm4gc2VsZi5jbGllbnRzLmNsYWltKCk7IH0pCiAgKTsKfSk7CnNlbGYuYWRkRXZlbnRMaXN0ZW5lcigiZmV0Y2giLCBmdW5jdGlvbihlKXsKICBpZihlLnJlcXVlc3QubWV0aG9kICE9PSAiR0VUIikgcmV0dXJuOwogIGUucmVzcG9uZFdpdGgoCiAgICBjYWNoZXMubWF0Y2goZS5yZXF1ZXN0LCB7aWdub3JlU2VhcmNoOnRydWV9KS50aGVuKGZ1bmN0aW9uKGhpdCl7CiAgICAgIGlmKGhpdCkgcmV0dXJuIGhpdDsKICAgICAgcmV0dXJuIGZldGNoKGUucmVxdWVzdCkudGhlbihmdW5jdGlvbihyZXMpewogICAgICAgIHZhciBjb3B5ID0gcmVzLmNsb25lKCk7CiAgICAgICAgY2FjaGVzLm9wZW4oQ0FDSEUpLnRoZW4oZnVuY3Rpb24oYyl7IGMucHV0KGUucmVxdWVzdCwgY29weSk7IH0pOwogICAgICAgIHJldHVybiByZXM7CiAgICAgIH0pOwogICAgfSkKICApOwp9KTsK
+/* MOC service worker: cache-first for same-origin GETs */
+var CACHE = "moc-v1";
+var CORE = [
+  "./",
+  "./index.html",
+  "./manifest.webmanifest",
+  "./icon.svg",
+  "./assets/img-icon.js",
+  "./assets/img-ss1.js",
+  "./assets/img-ss2.js",
+  "./assets/img-ss3.js",
+  "./assets/img-ss4.js",
+  "./assets/img-ss5.js",
+  "./assets/img-ss6.js"
+];
+self.addEventListener("install", function(e){
+  e.waitUntil(
+    caches.open(CACHE).then(function(c){ return c.addAll(CORE); }).then(function(){ return self.skipWaiting(); })
+  );
+});
+self.addEventListener("activate", function(e){
+  e.waitUntil(
+    caches.keys().then(function(keys){
+      return Promise.all(keys.map(function(k){ if(k !== CACHE) return caches.delete(k); }));
+    }).then(function(){ return self.clients.claim(); })
+  );
+});
+self.addEventListener("fetch", function(e){
+  if(e.request.method !== "GET") return;
+  e.respondWith(
+    caches.match(e.request, {ignoreSearch:true}).then(function(hit){
+      if(hit) return hit;
+      return fetch(e.request).then(function(res){
+        var copy = res.clone();
+        caches.open(CACHE).then(function(c){ c.put(e.request, copy); });
+        return res;
+      });
+    })
+  );
+});
