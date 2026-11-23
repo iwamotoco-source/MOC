@@ -5,13 +5,9 @@ var CORE = [
   "./index.html",
   "./manifest.webmanifest",
   "./icon.svg",
-  "./assets/img-icon.js",
-  "./assets/img-ss1.js",
-  "./assets/img-ss2.js",
-  "./assets/img-ss3.js",
-  "./assets/img-ss4.js",
-  "./assets/img-ss5.js",
-  "./assets/img-ss6.js"
+  "./assets/defaults-1.js",
+  "./assets/defaults-2.js",
+  "./assets/defaults-3.js",
 ];
 self.addEventListener("install", function(e){
   e.waitUntil(
