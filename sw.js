@@ -1,5 +1,5 @@
 /* MOC service worker: cache-first for same-origin GETs */
-var CACHE = "moc-v1";
+var CACHE = "moc-v2";
 var CORE = [
   "./",
   "./index.html",
