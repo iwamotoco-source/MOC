@@ -14,154 +14,210 @@
 <script src="assets/defaults-1.js"></script>
 <script src="assets/defaults-2.js"></script>
 <script src="assets/defaults-3.js"></script>
-
 <style>
 :root{
---ink:#1c1c1e; --sub:#8a8a8e; --faint:#c7c7cc; --line:#e3e3e6;
---blue:#0071e3; --pill:#f2f2f7; --bg:#ffffff;
+  --ink:#000000; --sub:#8e8e93; --faint:#c7c7cc; --line:#e6e6ea;
+  --blue:#007aff; --pill:#f2f2f7; --card:#f2f2f7; --bg:#ffffff;
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{-webkit-text-size-adjust:100%}
 body{
-font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP",sans-serif;
-background:#d9d9de; color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP",sans-serif;
+  background:#d9d9de; color:var(--ink);
 }
 #phone{
-max-width:430px; margin:0 auto; background:var(--bg); min-height:100dvh;
-position:relative; box-shadow:0 0 24px rgba(0,0,0,.18);
-padding-bottom:calc(28px + env(safe-area-inset-bottom));
+  max-width:430px; margin:0 auto; background:var(--bg); min-height:100dvh;
+  position:relative; box-shadow:0 0 24px rgba(0,0,0,.18);
+  padding-bottom:110px;
 }
-/* ---------- top nav (store chrome) ---------- */
-#topbar{
-position:sticky; top:0; z-index:40; height:calc(44px + env(safe-area-inset-top));
-padding-top:env(safe-area-inset-top);
-display:flex; align-items:center; justify-content:space-between; padding-left:8px; padding-right:16px;
-background:rgba(255,255,255,.82); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+/* ---------- floating top buttons / scrolled bar ---------- */
+#topzone{
+  position:sticky; top:0; z-index:40; height:calc(56px + env(safe-area-inset-top));
+  padding-top:env(safe-area-inset-top);
 }
-#topbar.back{color:var(--blue); font-size:30px; line-height:1; padding:0 6px; font-weight:300}
-#topbar.mini{display:flex; align-items:center; gap:8px; opacity:0; transition:opacity.2s}
-#topbar.scrolled.mini{opacity:1}
-#topbar.mini img{width:26px;height:26px;border-radius:6px;object-fit:cover}
-#topbar.mini.mn{font-size:14px;font-weight:600}
-#topbar.getbtn{font-size:14px}
-.shareic{color:var(--blue); font-size:19px}
+#topzone .floatrow{
+  display:flex; justify-content:space-between; align-items:center; padding:8px 16px 0;
+}
+.circlebtn{
+  width:38px; height:38px; border-radius:50%; border:none; cursor:pointer;
+  background:rgba(120,120,128,.14); color:#3a3a3c; font-size:19px;
+  display:flex; align-items:center; justify-content:center; backdrop-filter:blur(8px);
+}
+#topzone .minibar{
+  position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+  background:rgba(255,255,255,.86); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+  opacity:0; pointer-events:none; transition:opacity .18s; padding-top:env(safe-area-inset-top);
+}
+#topzone.scrolled .minibar{opacity:1; pointer-events:auto}
+#topzone.scrolled .floatrow{opacity:0; pointer-events:none}
+.minibar img{width:30px; height:30px; border-radius:7px; object-fit:cover}
+.minibar .dl{
+  position:absolute; right:16px; bottom:8px; width:34px; height:34px; border-radius:50%;
+  background:rgba(120,120,128,.14); color:var(--blue); display:flex; align-items:center; justify-content:center; font-size:16px;
+}
 /* ---------- header ---------- */
-header{padding:6px 20px 0}
-.headrow{display:flex; gap:14px}
-.appicon-wrap{position:relative; flex:none}
-.appicon{width:118px;height:118px;border-radius:26px;object-fit:cover;border:.5px solid var(--line); display:block}
+header{padding:2px 20px 0}
+.headrow{display:flex; gap:16px}
+.iconwrap{position:relative; flex:none}
+.appicon{width:116px; height:116px; border-radius:26px; object-fit:cover; border:.5px solid var(--line); display:block; background:#eee}
 .headmain{flex:1; min-width:0; display:flex; flex-direction:column}
-.appname{font-size:23px; font-weight:700; letter-spacing:.01em; line-height:1.2}
-.appsub{font-size:14px; color:var(--sub); margin-top:2px; line-height:1.35}
-.devlink{font-size:14px; color:var(--blue); margin-top:2px}
-.headcta{display:flex; align-items:flex-end; justify-content:space-between; margin-top:auto; padding-top:8px}
-.getwrap{display:flex; flex-direction:column; gap:3px}
+.appname{font-size:22px; font-weight:700; line-height:1.22; letter-spacing:.01em}
+.appsub{font-size:13.5px; color:var(--sub); margin-top:3px; line-height:1.35}
+.headcta{margin-top:auto; padding-top:10px; display:flex; align-items:center; gap:14px}
 .getbtn{
-background:var(--pill); color:var(--blue); font-weight:700; font-size:15px;
-border:none; border-radius:999px; padding:7px 26px; letter-spacing:.04em; cursor:pointer;
-font-family:inherit;
+  background:var(--pill); color:var(--blue); font-weight:700; font-size:15px;
+  border:none; border-radius:999px; padding:7px 30px; letter-spacing:.05em; cursor:pointer; font-family:inherit;
 }
-.getnote{font-size:10px; color:var(--sub); line-height:1.3}
-.sharebtn{color:var(--blue); font-size:20px; background:none;border:none; padding:4px}
-/* ---------- stats ---------- */
+.getnote{font-size:10.5px; color:var(--sub); line-height:1.35; white-space:pre-line}
+/* ---------- stats band ---------- */
 .stats{
-display:flex; overflow-x:auto; scrollbar-width:none; margin:18px 0 0; padding:10px 4px 12px;
-border-top:.5px solid var(--line); border-bottom:.5px solid var(--line);
+  display:flex; overflow-x:auto; scrollbar-width:none; margin-top:20px;
+  padding:12px 6px 14px; border-top:.5px solid var(--line); border-bottom:.5px solid var(--line);
 }
 .stats::-webkit-scrollbar{display:none}
-.stat{flex:1 0 auto; min-width:74px; text-align:center; padding:0 10px; position:relative}
-.stat +.stat::before{content:""; position:absolute; left:0; top:6px; bottom:6px; width:.5px; background:var(--line)}
-.stat.v{font-size:16px; font-weight:700; color:#3a3a3c; white-space:nowrap}
-.stat.v.stars{color:#3a3a3c; font-size:11px; letter-spacing:1px}
-.stat.l{font-size:11px; color:var(--sub); margin-top:2px; white-space:nowrap}
-/* ---------- screenshots ---------- */
+.stat{flex:1 0 auto; min-width:86px; text-align:center; padding:0 12px; position:relative}
+.stat + .stat::before{content:""; position:absolute; left:0; top:4px; bottom:4px; width:.5px; background:var(--line)}
+.stat .l{font-size:11px; color:var(--sub); white-space:nowrap}
+.stat .v{font-size:21px; font-weight:700; color:#3a3a3c; margin-top:3px; white-space:nowrap; line-height:1.15}
+.stat .v svg{vertical-align:-3px}
+.stat .s{font-size:12px; color:var(--sub); margin-top:2px; white-space:nowrap}
+.stat .s.stars{font-size:11px; letter-spacing:1.5px; color:var(--sub)}
+/* ---------- sections ---------- */
+section{padding:22px 20px 0}
+.secttl{display:flex; align-items:center; gap:6px; margin-bottom:10px}
+.secttl h2{font-size:21px; font-weight:700}
+.secttl .chev{color:#c7c7cc; font-size:19px; font-weight:600}
+.body-text{font-size:14.5px; line-height:1.55; color:#1c1c1e; white-space:pre-line; word-break:break-word}
+.verline{display:flex; justify-content:space-between; font-size:13.5px; color:var(--sub); margin-bottom:8px}
+/* ---------- previews ---------- */
 .shots{
-display:flex; gap:10px; overflow-x:auto; scroll-snap-type:x mandatory;
-padding:16px 20px 4px; scrollbar-width:none;
+  display:flex; gap:10px; overflow-x:auto; scroll-snap-type:x mandatory;
+  margin:0 -20px; padding:2px 20px 4px; scrollbar-width:none;
 }
 .shots::-webkit-scrollbar{display:none}
 .shot{position:relative; flex:none; scroll-snap-align:start}
 .shot img{
-display:block; width:calc(100vw - 56px); max-width:374px; aspect-ratio:2796/1290;
-object-fit:cover; border-radius:16px; border:.5px solid var(--line); background:#111;
+  display:block; width:calc(100vw - 52px); max-width:378px; aspect-ratio:2796/1290;
+  object-fit:cover; border-radius:14px; border:.5px solid var(--line); background:#111;
 }
-@media (min-width:431px){.shot img{width:374px}}
-.shots-note{padding:6px 20px 0; font-size:11px; color:var(--sub)}
-/* ---------- sections ---------- */
-section{padding:18px 20px 0}
-.secttl{display:flex; align-items:baseline; justify-content:space-between; margin-bottom:8px}
-.secttl h2{font-size:21px; font-weight:700}
-.secttl.more{font-size:15px; color:var(--blue)}
-.body-text{font-size:14.5px; line-height:1.55; color:#2c2c2e; white-space:pre-line; word-break:break-word}
-.verline{display:flex; justify-content:space-between; font-size:13px; color:var(--sub); margin-bottom:6px}
-/* description clamp */
+@media (min-width:431px){ .shot img{width:378px} }
+.devlabel{display:flex; align-items:center; gap:7px; color:var(--sub); font-size:14.5px; margin-top:10px}
+.devlabel svg{flex:none}
+/* ---------- description ---------- */
 #descWrap{position:relative}
-#descWrap.clamped.body-text{display:-webkit-box; -webkit-line-clamp:9; -webkit-box-orient:vertical; overflow:hidden}
-#descMore{color:var(--blue); font-size:14.5px; background:none;border:none; padding:4px 0; font-family:inherit; cursor:pointer}
-body.editing #descWrap.clamped .body-text{display:block; overflow:visible}
-body.editing #descMore{display:none}
-/* ratings */
-.rate-flex{display:flex; gap:18px; align-items:flex-start}
-.rate-big{font-size:56px; font-weight:800; line-height:1}
-.rate-stars{font-size:15px; letter-spacing:2px; margin-top:4px}
-.rate-count{font-size:13px; color:var(--sub); margin-top:3px}
-.bars{flex:1; padding-top:4px}
-.bar-row{display:flex; align-items:center; gap:8px; font-size:11px; color:var(--sub); margin-bottom:3px}
-.bar-track{flex:1; height:8px; background:#e9e9ec; border-radius:4px; overflow:hidden}
-.bar-fill{height:100%; background:#8e8e93; border-radius:4px}
-/* info list */
+#descWrap .body-text{display:-webkit-box; -webkit-line-clamp:5; -webkit-box-orient:vertical; overflow:hidden}
+#descWrap.open .body-text{display:block; overflow:visible}
+#descMore{
+  position:absolute; right:0; bottom:0; color:var(--blue); font-size:14.5px;
+  background:linear-gradient(to right, rgba(255,255,255,0), #fff 32%); border:none;
+  padding:0 0 0 34px; font-family:inherit; cursor:pointer; line-height:1.55;
+}
+#descWrap.open #descMore{position:static; background:none; padding:4px 0 0; display:block; margin-left:auto}
+.devrow{
+  display:flex; align-items:center; justify-content:space-between;
+  margin-top:18px; padding:4px 0 2px;
+}
+.devrow .dn{font-size:15.5px; color:var(--blue)}
+.devrow .dc{font-size:13px; color:var(--sub); margin-top:1px}
+.devrow .chev{color:#c7c7cc; font-size:20px}
+/* ---------- ratings ---------- */
+.rate-flex{display:flex; justify-content:space-between; align-items:flex-start}
+.rate-big{font-size:62px; font-weight:800; line-height:1; letter-spacing:-.01em}
+.rate-right{text-align:right; padding-top:8px}
+.rate-stars{font-size:19px; letter-spacing:3px}
+.rate-count{font-size:14px; color:var(--sub); margin-top:5px; font-weight:600}
+.subhead{font-size:16.5px; font-weight:700; margin:20px 0 10px}
+.reviewrow{display:flex; gap:10px; overflow-x:auto; margin:0 -20px; padding:0 20px 4px; scrollbar-width:none}
+.reviewrow::-webkit-scrollbar{display:none}
+.reviewcard{
+  flex:none; width:calc(100vw - 64px); max-width:352px; background:var(--card);
+  border-radius:14px; padding:16px 18px;
+}
+.reviewcard .rt{font-size:16px; font-weight:700}
+.reviewcard .rm{font-size:13px; color:var(--sub); margin-top:5px}
+.reviewcard .rm .rs{color:#1c1c1e; letter-spacing:2px; font-size:12px}
+.reviewcard .rb{font-size:14px; color:#3a3a3c; line-height:1.5; margin-top:8px; display:-webkit-box; -webkit-line-clamp:7; -webkit-box-orient:vertical; overflow:hidden; white-space:pre-line}
+.taprate{text-align:center; font-size:15px; font-weight:600; margin-top:22px}
+.tapstars{text-align:center; font-size:30px; letter-spacing:10px; color:var(--blue); margin-top:6px}
+.ratebtns{display:flex; gap:10px; margin-top:18px}
+.ratebtns button{
+  flex:1; background:var(--pill); border:none; border-radius:10px; padding:11px 0;
+  font-size:14.5px; font-weight:600; color:var(--blue); font-family:inherit;
+}
+/* ---------- privacy ---------- */
+.priv-intro{font-size:14px; line-height:1.55; color:#1c1c1e}
+.priv-intro .lk{color:var(--blue)}
+.priv-card{background:var(--card); border-radius:14px; padding:16px 18px; margin-top:14px}
+.priv-card .ph{font-size:14.5px; font-weight:700; text-align:center}
+.priv-grid{display:grid; grid-template-columns:1fr 1fr; gap:14px 10px; margin-top:14px}
+.priv-item{text-align:center; font-size:13px; color:#1c1c1e}
+.priv-item .pi{display:block; font-size:19px; margin-bottom:4px}
+.priv-cap{font-size:12.5px; color:var(--sub); line-height:1.5; margin-top:12px; text-align:center}
+/* ---------- info ---------- */
 .info{border-top:.5px solid var(--line)}
-.irow{display:flex; gap:16px; padding:11px 0; border-bottom:.5px solid var(--line)}
-.irow.k{width:96px; flex:none; font-size:14px; color:var(--sub)}
-.irow.val{flex:1; font-size:14px}
-.irow.val.sub2{display:block; font-size:12.5px; color:var(--sub); margin-top:1px}
-.iap-price{float:right; color:var(--ink)}
-/* privacy card */
-.priv-card{background:var(--pill); border-radius:12px; padding:14px 16px; font-size:13.5px; line-height:1.5}
-.priv-item{margin-top:10px; font-weight:600; font-size:13.5px}
+.irow{display:flex; align-items:baseline; gap:14px; padding:12px 0; border-bottom:.5px solid var(--line)}
+.irow .k{flex:none; font-size:14.5px; color:var(--sub)}
+.irow .val{flex:1; font-size:14.5px; text-align:right}
+.irow .val .chev2{color:#c7c7cc; font-size:13px; margin-left:5px}
+.iap-detail{padding:2px 0 10px; border-bottom:.5px solid var(--line); font-size:14px}
+.iap-detail .r{display:flex; justify-content:space-between; padding:5px 0}
+.iap-detail .note{font-size:12.5px; color:var(--sub); margin-top:2px}
+.linkrow{display:flex; justify-content:space-between; align-items:center; padding:12px 0; border-bottom:.5px solid var(--line); color:var(--blue); font-size:14.5px}
+/* ---------- tab bar ---------- */
+#tabbar{
+  position:fixed; left:50%; transform:translateX(-50%); z-index:45;
+  bottom:calc(10px + env(safe-area-inset-bottom));
+  width:min(398px, calc(100vw - 24px));
+  background:rgba(250,250,252,.82); backdrop-filter:blur(18px); -webkit-backdrop-filter:blur(18px);
+  border:.5px solid rgba(0,0,0,.06); border-radius:999px; box-shadow:0 6px 24px rgba(0,0,0,.14);
+  display:flex; padding:8px 6px;
+}
+#tabbar .tab{flex:1; text-align:center; font-size:10px; color:#3a3a3c}
+#tabbar .tab .ti{display:block; font-size:19px; line-height:1.1}
+#tabbar .tab.on{color:var(--blue)}
+#tabbar .tab.on .pill{background:rgba(120,120,128,.14); border-radius:999px; padding:3px 0 1px; margin:-3px 2px 0}
+body.editing #tabbar{display:none}
 /* ---------- edit mode ---------- */
 #editFab{
-position:fixed; right:16px; bottom:calc(20px + env(safe-area-inset-bottom)); z-index:60;
-width:52px; height:52px; border-radius:50%; border:none; cursor:pointer;
-background:#1c1c1e; color:#fff; font-size:21px; box-shadow:0 4px 16px rgba(0,0,0,.35);
+  position:fixed; right:16px; bottom:calc(86px + env(safe-area-inset-bottom)); z-index:60;
+  width:52px; height:52px; border-radius:50%; border:none; cursor:pointer;
+  background:#1c1c1e; color:#fff; font-size:21px; box-shadow:0 4px 16px rgba(0,0,0,.35);
 }
-body.editing #editFab{background:var(--blue)}
+body.editing #editFab{background:var(--blue); bottom:calc(20px + env(safe-area-inset-bottom))}
 #editBar{
-display:none; position:fixed; left:50%; transform:translateX(-50%);
-bottom:calc(82px + env(safe-area-inset-bottom)); z-index:60;
-background:rgba(28,28,30,.94); color:#fff; border-radius:999px; padding:8px 10px;
-align-items:center; gap:6px; box-shadow:0 4px 16px rgba(0,0,0,.3); max-width:94vw;
+  display:none; position:fixed; left:50%; transform:translateX(-50%);
+  bottom:calc(82px + env(safe-area-inset-bottom)); z-index:60;
+  background:rgba(28,28,30,.94); color:#fff; border-radius:999px; padding:8px 10px;
+  align-items:center; gap:6px; box-shadow:0 4px 16px rgba(0,0,0,.3); max-width:94vw;
 }
 body.editing #editBar{display:flex}
 #editBar span{font-size:12px; padding:0 6px; white-space:nowrap}
 #editBar button{
-background:#3a3a3c; color:#fff; border:none; border-radius:999px; font-size:12.5px;
-padding:6px 12px; font-family:inherit; cursor:pointer; white-space:nowrap;
+  background:#3a3a3c; color:#fff; border:none; border-radius:999px; font-size:12.5px;
+  padding:6px 12px; font-family:inherit; cursor:pointer; white-space:nowrap;
 }
 #editBar button.danger{background:#7a2020}
-body.editing [data-edit]{outline:1.5px dashed rgba(0,113,227,.55); outline-offset:2px; border-radius:3px; min-height:1em}
+body.editing [data-edit]{outline:1.5px dashed rgba(0,122,255,.55); outline-offset:2px; border-radius:3px; min-height:1em}
 body.editing [data-edit]:focus{outline:2px solid var(--blue)}
 .imgctl{display:none}
-body.editing .imgctl{
-display:flex; gap:6px; position:absolute; right:8px; bottom:8px; z-index:5;
-}
+body.editing .imgctl{display:flex; gap:6px; position:absolute; right:8px; bottom:8px; z-index:5}
 .imgctl button{
-background:rgba(28,28,30,.88); color:#fff; border:none; border-radius:999px;
-font-size:12px; padding:6px 12px; font-family:inherit; cursor:pointer;
+  background:rgba(28,28,30,.88); color:#fff; border:none; border-radius:999px;
+  font-size:12px; padding:6px 12px; font-family:inherit; cursor:pointer;
 }
-.iconwrap{position:relative; flex:none}
-body.editing .iconwrap .imgctl{right:6px; left:auto; bottom:6px}
 .addshot{
-display:none; flex:none; scroll-snap-align:start; width:120px; aspect-ratio:2796/1290;
-border:2px dashed var(--faint); border-radius:16px; background:#fafafa; color:var(--sub);
-font-size:26px; cursor:pointer; align-self:flex-start;
+  display:none; flex:none; scroll-snap-align:start; width:120px; aspect-ratio:2796/1290;
+  border:2px dashed var(--faint); border-radius:14px; background:#fafafa; color:var(--sub);
+  font-size:26px; cursor:pointer; align-self:flex-start;
 }
 body.editing .addshot{display:block}
+body.editing #descWrap .body-text{display:block; overflow:visible}
+body.editing #descMore{display:none}
 .hiddenfile{display:none}
 .toast{
-position:fixed; left:50%; transform:translateX(-50%) translateY(20px); bottom:calc(150px + env(safe-area-inset-bottom));
-background:rgba(28,28,30,.92); color:#fff; font-size:13px; padding:9px 16px; border-radius:999px;
-opacity:0; pointer-events:none; transition:.25s; z-index:70;
+  position:fixed; left:50%; transform:translateX(-50%) translateY(20px); bottom:calc(160px + env(safe-area-inset-bottom));
+  background:rgba(28,28,30,.92); color:#fff; font-size:13px; padding:9px 16px; border-radius:999px;
+  opacity:0; pointer-events:none; transition:.25s; z-index:70;
 }
 .toast.show{opacity:1; transform:translateX(-50%) translateY(0)}
 </style>
@@ -169,12 +225,14 @@ opacity:0; pointer-events:none; transition:.25s; z-index:70;
 <body>
 <div id="phone">
 
-<div id="topbar">
-<div class="back">‹</div>
-<div class="mini"><img id="miniIcon" alt=""><span class="mn" data-edit="appName">晩夏</span></div>
-<div style="display:flex;align-items:center;gap:14px">
-<button class="getbtn getbtn-mini" data-edit="getLabel" style="padding:5px 18px">入手</button>
-<span class="shareic">􀈂</span>
+<div id="topzone">
+<div class="floatrow">
+<button class="circlebtn">‹</button>
+<button class="circlebtn">􀈂</button>
+</div>
+<div class="minibar">
+<img id="miniIcon" alt="">
+<div class="dl">􀈂</div>
 </div>
 </div>
 
@@ -187,43 +245,40 @@ opacity:0; pointer-events:none; transition:.25s; z-index:70;
 <div class="headmain">
 <div class="appname" data-edit="appName">晩夏</div>
 <div class="appsub" data-edit="appSub">民俗ホラー×謎解き探索ADV</div>
-<div class="devlink" data-edit="devName">STUDIO INARI</div>
 <div class="headcta">
-<div class="getwrap">
 <button class="getbtn" data-edit="getLabel">入手</button>
-<div class="getnote" data-edit="getNote">アプリ内課金あり
-プロローグ〜第一章 無料</div>
-</div>
-<button class="sharebtn">􀈂</button>
+<div class="getnote" data-edit="getNote">アプリ内課金あり</div>
 </div>
 </div>
 </div>
 </header>
 
 <div class="stats">
-<div class="stat"><div class="v"><span data-edit="stRate">4.8</span> <span class="stars">★★★★★</span></div><div class="l" data-edit="stRateL">— 件の評価</div></div>
-<div class="stat"><div class="v" data-edit="stAge">12+</div><div class="l" data-edit="stAgeL">年齢</div></div>
-<div class="stat"><div class="v" data-edit="stCat">Adventure</div><div class="l" data-edit="stCatL">カテゴリ</div></div>
-<div class="stat"><div class="v" data-edit="stDev">STUDIO INARI</div><div class="l" data-edit="stDevL">デベロッパ</div></div>
-<div class="stat"><div class="v" data-edit="stLang">29</div><div class="l" data-edit="stLangL">言語</div></div>
-<div class="stat"><div class="v" data-edit="stSize">850 MB</div><div class="l" data-edit="stSizeL">サイズ</div></div>
+<div class="stat"><div class="l" data-edit="stRateL">— 件の評価</div><div class="v" data-edit="stRate">4.8</div><div class="s stars">★★★★★</div></div>
+<div class="stat"><div class="l" data-edit="stAgeL">年齢制限指定</div><div class="v" data-edit="stAge">12+</div><div class="s" data-edit="stAgeS">歳</div></div>
+<div class="stat"><div class="l" data-edit="stCatL">カテゴリ</div><div class="v"><svg width="21" height="21" viewBox="0 0 24 24" fill="#3a3a3c"><path d="M5 3v18H3V3h2zm2 1h11l-2.5 4L18 12H7V4z"/></svg></div><div class="s" data-edit="stCatS">アドベンチャー</div></div>
+<div class="stat"><div class="l" data-edit="stDevL">デベロッパ</div><div class="v"><svg width="21" height="21" viewBox="0 0 24 24" fill="#3a3a3c"><path d="M12 12a4.5 4.5 0 1 0-4.5-4.5A4.5 4.5 0 0 0 12 12zm0 2.2c-3.6 0-7.5 1.8-7.5 4.3V21h15v-2.5c0-2.5-3.9-4.3-7.5-4.3z"/></svg></div><div class="s" data-edit="stDevS">STUDIO INARI</div></div>
+<div class="stat"><div class="l" data-edit="stLangL">言語</div><div class="v" data-edit="stLang">日本語</div><div class="s" data-edit="stLangS">+ 28言語</div></div>
+<div class="stat"><div class="l" data-edit="stSizeL">サイズ</div><div class="v" data-edit="stSize">850</div><div class="s">MB</div></div>
 </div>
 
-<div class="shots" id="shots"></div>
-<div class="shots-note" data-edit="shotsNote">※ BANKAは横画面専用（ランドスケープ）のため、スクリーンショットは横長で並びます。</div>
-
 <section>
-<div class="body-text" data-edit="promo">物語と探索を楽しみながら謎を解く、和風ホラー×3D探索アドベンチャー。序章〜第一章はでプレイ可能。狐面の少女と、存在しない日付「8月32日」——あの夏の続きは、七つの大灯籠を灯した先に。</div>
-</section>
-
-<section>
-<div class="secttl"><h2>新規機能</h2><span class="more" data-edit="verHist">バージョン履歴</span></div>
+<div class="secttl"><h2>アップデート</h2><span class="chev">›</span></div>
 <div class="verline"><span data-edit="verName">バージョン 1.0</span><span data-edit="verDate">2026年12月25日</span></div>
 <div class="body-text" data-edit="verNote">『晩夏』発売。プロローグ〜第一章は無料でお楽しみいただけます。</div>
 </section>
 
 <section>
-<div id="descWrap" class="clamped">
+<div class="secttl"><h2>プレビュー</h2></div>
+<div class="shots" id="shots"></div>
+<div class="devlabel">
+<svg width="15" height="24" viewBox="0 0 15 24" fill="none" stroke="#8e8e93" stroke-width="1.4"><rect x="1" y="1" width="13" height="22" rx="3"/><line x1="5.5" y1="20" x2="9.5" y2="20"/></svg>
+<span data-edit="devLabel">iPhone</span>
+</div>
+</section>
+
+<section>
+<div id="descWrap">
 <div class="body-text" data-edit="desc">物語と探索を楽しみながら謎を解く
 和風ホラー×3D探索アドベンチャー
 
@@ -269,34 +324,54 @@ opacity:0; pointer-events:none; transition:.25s; z-index:70;
 
 開発：STUDIO INARI
 公式サイト：studioinari.net</div>
-</div>
 <button id="descMore">さらに表示</button>
+</div>
+<div class="devrow">
+<div>
+<div class="dn" data-edit="devName">STUDIO INARI</div>
+<div class="dc">デベロッパ</div>
+</div>
+<span class="chev">›</span>
+</div>
 </section>
 
 <section>
-<div class="secttl"><h2>評価とレビュー</h2><span class="more">すべて表示</span></div>
+<div class="secttl"><h2>評価とレビュー</h2><span class="chev">›</span></div>
 <div class="rate-flex">
-<div>
 <div class="rate-big" data-edit="rateBig">4.8</div>
+<div class="rate-right">
 <div class="rate-stars">★★★★★</div>
 <div class="rate-count" data-edit="rateCount">— 件の評価</div>
 </div>
-<div class="bars">
-<div class="bar-row"><span>5</span><div class="bar-track"><div class="bar-fill" style="width:82%"></div></div></div>
-<div class="bar-row"><span>4</span><div class="bar-track"><div class="bar-fill" style="width:12%"></div></div></div>
-<div class="bar-row"><span>3</span><div class="bar-track"><div class="bar-fill" style="width:4%"></div></div></div>
-<div class="bar-row"><span>2</span><div class="bar-track"><div class="bar-fill" style="width:1%"></div></div></div>
-<div class="bar-row"><span>1</span><div class="bar-track"><div class="bar-fill" style="width:1%"></div></div></div>
 </div>
+<div class="subhead">参考になったレビュー</div>
+<div class="reviewrow">
+<div class="reviewcard">
+<div class="rt" data-edit="revTitle">レビュータイトル</div>
+<div class="rm"><span class="rs">★★★★★</span>　<span data-edit="revMeta">— ・ ユーザー名</span></div>
+<div class="rb" data-edit="revBody">ここにレビュー本文が入ります。</div>
+</div>
+</div>
+<div class="taprate">タップして評価</div>
+<div class="tapstars">☆☆☆☆☆</div>
+<div class="ratebtns">
+<button>レビューを書く</button>
+<button>Appサポート</button>
 </div>
 </section>
 
 <section>
-<div class="secttl"><h2>Appのプライバシー</h2><span class="more">詳細を表示</span></div>
+<div class="secttl"><h2>Appのプライバシー</h2><span class="chev">›</span></div>
+<div class="priv-intro" data-edit="privText">開発者「STUDIO INARI」は、Appのプライバシー慣行に、以下に示すデータの取り扱いが含まれる場合があることを示しました。詳しくは開発者のプライバシーポリシーをご覧ください。</div>
 <div class="priv-card">
-<div data-edit="privText">開発者「STUDIO INARI」は、Appのプライバシー慣行に、以下に示すデータの取り扱いが含まれる場合があることを示しました。詳しくは開発者のプライバシーポリシーをご覧ください。</div>
-<div class="priv-item" data-edit="privItem">トラッキングに使用されるデータはありません</div>
+<div class="ph" data-edit="privHead">トラッキングに使用されるデータはありません</div>
+<div class="priv-cap" data-edit="privCap">このアプリで収集されるデータはありません。</div>
 </div>
+</section>
+
+<section>
+<div class="secttl"><h2>アクセシビリティ</h2></div>
+<div class="priv-intro" data-edit="a11yText">デベロッパは、このアプリがサポートしているアクセシビリティ機能をまだ示していません。</div>
 </section>
 
 <section>
@@ -305,23 +380,27 @@ opacity:0; pointer-events:none; transition:.25s; z-index:70;
 <div class="irow"><div class="k">販売元</div><div class="val" data-edit="iSeller">STUDIO INARI</div></div>
 <div class="irow"><div class="k">サイズ</div><div class="val" data-edit="iSize">850 MB</div></div>
 <div class="irow"><div class="k">カテゴリ</div><div class="val" data-edit="iCat">アドベンチャー</div></div>
-<div class="irow"><div class="k">互換性</div><div class="val"><span data-edit="iCompat">iPhone／iPad</span><span class="sub2" data-edit="iCompatSub">iOS 15.0以降が必要です・横画面専用</span></div></div>
-<div class="irow"><div class="k">言語</div><div class="val"><span data-edit="iLang">日本語</span><span class="sub2" data-edit="iLangSub">ほか28言語（ゲーム内29言語対応）</span></div></div>
-<div class="irow"><div class="k">カテゴリ</div><div class="val" data-edit="iCat2">Games（主）／Adventure（副）</div></div>
-<div class="irow"><div class="k">キーワード</div><div class="val" data-edit="iKw">ホラーゲーム,恐怖,脱出,推理,ミステリー,怪談,村,妖怪,民俗学,ノベル,インディー,神隠し</div></div>
-<div class="irow"><div class="k">年齢制限</div><div class="val"><span data-edit="iAge">12+</span><span class="sub2" data-edit="iAgeSub">ホラー／恐怖を感じさせるテーマ（頻繁）</span></div></div>
-<div class="irow"><div class="k">Copyright</div><div class="val" data-edit="iCopy">© STUDIO INARI</div></div>
-<div class="irow"><div class="k">価格</div><div class="val" data-edit="iPrice">無料</div></div>
+<div class="irow"><div class="k">互換性</div><div class="val"><span data-edit="iCompat">このiPhoneに対応</span><span class="chev2">⌄</span></div></div>
+<div class="irow"><div class="k">言語</div><div class="val"><span data-edit="iLang">日本語</span><span class="sub2" style="display:block;font-size:12.5px;color:var(--sub)" data-edit="iLangSub">ほか28言語（ゲーム内29言語対応）</span></div></div>
+<div class="irow"><div class="k">年齢制限</div><div class="val"><span data-edit="iAge">12+</span><span class="chev2">⌄</span></div></div>
+<div class="irow"><div class="k">アプリ内購入</div><div class="val"><span data-edit="iIap">あり</span><span class="chev2">⌄</span></div></div>
+<div class="iap-detail">
+<div class="r"><span data-edit="iapName">全編の購入</span><span data-edit="iapPrice">¥850</span></div>
+<div class="note" data-edit="iapNote">発売初週 ¥590（2026年12月・期間限定）</div>
+</div>
+<div class="irow"><div class="k">著作権</div><div class="val" data-edit="iCopy">© STUDIO INARI</div></div>
+<div class="linkrow"><span>プライバシーポリシー</span><span>✋</span></div>
 </div>
 </section>
 
-<section>
-<div class="secttl"><h2>App内課金</h2><span class="more">あり ›</span></div>
-<div class="info">
-<div class="irow"><div class="val"><span data-edit="iapName">全編の購入</span><span class="iap-price" data-edit="iapPrice">¥850</span><span class="sub2" data-edit="iapNote" style="display:block;font-size:12.5px;color:var(--sub);margin-top:1px">発売初週 ¥590（2026年12月・期間限定）</span></div></div>
 </div>
-</section>
 
+<div id="tabbar">
+<div class="tab"><span class="ti">📰</span>Today</div>
+<div class="tab"><span class="ti">🚀</span>ゲーム</div>
+<div class="tab"><span class="ti">🗂</span>アプリ</div>
+<div class="tab"><span class="ti">🕹</span>Arcade</div>
+<div class="tab on"><div class="pill"><span class="ti">🔍</span>検索</div></div>
 </div>
 
 <button id="editFab" title="編集モード">✎</button>
@@ -335,233 +414,211 @@ opacity:0; pointer-events:none; transition:.25s; z-index:70;
 
 <script>
 (function(){
-"use strict";
-var TEXT_KEY = "moc.texts.v2";
-var SHOTS_KEY = "moc.shots.v2";
-var G = window.MOC_IMGS || {};
+  "use strict";
+  var TEXT_KEY = "moc.texts.v3";
+  var SHOTS_KEY = "moc.shots.v2";
+  var G = window.MOC_IMGS || {};
   var DEFAULT_SHOTS = [G.ss1,G.ss2,G.ss3,G.ss4,G.ss5,G.ss6].filter(Boolean);
 
-/* ---------- IndexedDB for replaced images ---------- */
-var db = null;
-function openDB(){
-return new Promise(function(res){
-var rq = indexedDB.open("moc-db", 1);
-rq.onupgradeneeded = function(){ rq.result.createObjectStore("imgs");};
-rq.onsuccess = function(){ db = rq.result; res();};
-rq.onerror = function(){ res();};
-});
-}
-function idbSet(key, blob){
-return new Promise(function(res){
-if(!db) return res();
-var tx = db.transaction("imgs","readwrite");
-tx.objectStore("imgs").put(blob, key);
-tx.oncomplete = res; tx.onerror = res;
-});
-}
-function idbGet(key){
-return new Promise(function(res){
-if(!db) return res(null);
-var rq = db.transaction("imgs").objectStore("imgs").get(key);
-rq.onsuccess = function(){ res(rq.result || null);};
-rq.onerror = function(){ res(null);};
-});
-}
-function idbDel(key){
-return new Promise(function(res){
-if(!db) return res();
-var tx = db.transaction("imgs","readwrite");
-tx.objectStore("imgs").delete(key);
-tx.oncomplete = res; tx.onerror = res;
-});
-}
-function idbClear(){
-return new Promise(function(res){
-if(!db) return res();
-var tx = db.transaction("imgs","readwrite");
-tx.objectStore("imgs").clear();
-tx.oncomplete = res; tx.onerror = res;
-});
-}
+  var db = null;
+  function openDB(){
+    return new Promise(function(res){
+      var rq = indexedDB.open("moc-db", 1);
+      rq.onupgradeneeded = function(){ rq.result.createObjectStore("imgs"); };
+      rq.onsuccess = function(){ db = rq.result; res(); };
+      rq.onerror = function(){ res(); };
+    });
+  }
+  function idbSet(key, blob){
+    return new Promise(function(res){
+      if(!db) return res();
+      var tx = db.transaction("imgs","readwrite");
+      tx.objectStore("imgs").put(blob, key);
+      tx.oncomplete = res; tx.onerror = res;
+    });
+  }
+  function idbGet(key){
+    return new Promise(function(res){
+      if(!db) return res(null);
+      var rq = db.transaction("imgs").objectStore("imgs").get(key);
+      rq.onsuccess = function(){ res(rq.result || null); };
+      rq.onerror = function(){ res(null); };
+    });
+  }
+  function idbDel(key){
+    return new Promise(function(res){
+      if(!db) return res();
+      var tx = db.transaction("imgs","readwrite");
+      tx.objectStore("imgs").delete(key);
+      tx.oncomplete = res; tx.onerror = res;
+    });
+  }
+  function idbClear(){
+    return new Promise(function(res){
+      if(!db) return res();
+      var tx = db.transaction("imgs","readwrite");
+      tx.objectStore("imgs").clear();
+      tx.oncomplete = res; tx.onerror = res;
+    });
+  }
 
-var toastTimer = null;
-function toast(msg){
-var t = document.getElementById("toast");
-t.textContent = msg; t.classList.add("show");
-clearTimeout(toastTimer);
-toastTimer = setTimeout(function(){ t.classList.remove("show");}, 1400);
-}
+  var toastTimer = null;
+  function toast(msg){
+    var t = document.getElementById("toast");
+    t.textContent = msg; t.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function(){ t.classList.remove("show"); }, 1400);
+  }
 
-/* ---------- texts ---------- */
-function saveTexts(){
-var out = {};
-document.querySelectorAll("[data-edit]").forEach(function(el){
-out[el.getAttribute("data-edit")] = el.innerText;
-});
-try{ localStorage.setItem(TEXT_KEY, JSON.stringify(out));}catch(e){}
-}
-function loadTexts(){
-var raw; try{ raw = localStorage.getItem(TEXT_KEY);}catch(e){}
-if(!raw) return;
-var data; try{ data = JSON.parse(raw);}catch(e){ return;}
-document.querySelectorAll("[data-edit]").forEach(function(el){
-var k = el.getAttribute("data-edit");
-if(data[k]!= null) el.innerText = data[k];
-});
-syncDupes();
-}
-function syncDupes(){
-// appName / getLabel appear twice (topbar + header): keep them in sync from the header copies
-var name = document.querySelector("header [data-edit='appName']");
-var mini = document.querySelector("#topbar [data-edit='appName']");
-if(name && mini) mini.innerText = name.innerText;
-}
+  function saveTexts(){
+    var out = {};
+    document.querySelectorAll("[data-edit]").forEach(function(el){
+      out[el.getAttribute("data-edit")] = el.innerText;
+    });
+    try{ localStorage.setItem(TEXT_KEY, JSON.stringify(out)); }catch(e){}
+  }
+  function loadTexts(){
+    var raw; try{ raw = localStorage.getItem(TEXT_KEY); }catch(e){}
+    if(!raw) return;
+    var data; try{ data = JSON.parse(raw); }catch(e){ return; }
+    document.querySelectorAll("[data-edit]").forEach(function(el){
+      var k = el.getAttribute("data-edit");
+      if(data[k] != null) el.innerText = data[k];
+    });
+  }
 
-/* ---------- screenshots ---------- */
-var shotsEl = document.getElementById("shots");
-function getShotList(){
-var raw; try{ raw = localStorage.getItem(SHOTS_KEY);}catch(e){}
-if(raw){ try{ var a = JSON.parse(raw); if(Array.isArray(a) && a.length) return a;}catch(e){}}
-return DEFAULT_SHOTS.slice();
-}
-function saveShotList(list){
-try{ localStorage.setItem(SHOTS_KEY, JSON.stringify(list));}catch(e){}
-}
-var objectURLs = {};
-function renderShots(){
-var list = getShotList();
-shotsEl.innerHTML = "";
-list.forEach(function(item, idx){
-var wrap = document.createElement("div"); wrap.className = "shot";
-var img = document.createElement("img"); img.alt = "スクリーンショット " + (idx+1);
-if(item.indexOf("blob:") === 0){
-idbGet(item).then(function(blob){
-if(blob){ img.src = URL.createObjectURL(blob);}
-});
-} else { img.src = item;}
-var ctl = document.createElement("div"); ctl.className = "imgctl";
-var rep = document.createElement("button"); rep.textContent = "差し替え";
-rep.addEventListener("click", function(){ pickImage(function(file){ replaceShot(idx, file);});});
-var del = document.createElement("button"); del.textContent = "削除";
-del.addEventListener("click", function(){ removeShot(idx);});
-ctl.appendChild(rep); ctl.appendChild(del);
-wrap.appendChild(img); wrap.appendChild(ctl);
-shotsEl.appendChild(wrap);
-});
-var add = document.createElement("button");
-add.className = "addshot"; add.textContent = "＋";
-add.addEventListener("click", function(){
-pickImage(function(file){ addShot(file);});
-});
-shotsEl.appendChild(add);
-}
-function replaceShot(idx, file){
-var key = "blob:shot-" + Date.now() + "-" + idx;
-idbSet(key, file).then(function(){
-var list = getShotList();
-var old = list[idx];
-list[idx] = key; saveShotList(list);
-if(old && old.indexOf("blob:") === 0) idbDel(old);
-renderShots(); toast("画像を差し替えました");
-});
-}
-function addShot(file){
-var key = "blob:shot-" + Date.now() + "-new";
-idbSet(key, file).then(function(){
-var list = getShotList(); list.push(key); saveShotList(list);
-renderShots(); toast("画像を追加しました");
-});
-}
-function removeShot(idx){
-var list = getShotList();
-var old = list[idx];
-list.splice(idx, 1); saveShotList(list);
-if(old && old.indexOf("blob:") === 0) idbDel(old);
-renderShots(); toast("画像を削除しました");
-}
+  var shotsEl = document.getElementById("shots");
+  function getShotList(){
+    var raw; try{ raw = localStorage.getItem(SHOTS_KEY); }catch(e){}
+    if(raw){ try{ var a = JSON.parse(raw); if(Array.isArray(a) && a.length) return a; }catch(e){} }
+    return DEFAULT_SHOTS.slice();
+  }
+  function saveShotList(list){
+    try{ localStorage.setItem(SHOTS_KEY, JSON.stringify(list)); }catch(e){}
+  }
+  function renderShots(){
+    var list = getShotList();
+    shotsEl.innerHTML = "";
+    list.forEach(function(item, idx){
+      var wrap = document.createElement("div"); wrap.className = "shot";
+      var img = document.createElement("img"); img.alt = "スクリーンショット " + (idx+1);
+      if(item.indexOf("blob:") === 0){
+        idbGet(item).then(function(blob){ if(blob){ img.src = URL.createObjectURL(blob); } });
+      } else { img.src = item; }
+      var ctl = document.createElement("div"); ctl.className = "imgctl";
+      var rep = document.createElement("button"); rep.textContent = "差し替え";
+      rep.addEventListener("click", function(){ pickImage(function(file){ replaceShot(idx, file); }); });
+      var del = document.createElement("button"); del.textContent = "削除";
+      del.addEventListener("click", function(){ removeShot(idx); });
+      ctl.appendChild(rep); ctl.appendChild(del);
+      wrap.appendChild(img); wrap.appendChild(ctl);
+      shotsEl.appendChild(wrap);
+    });
+    var add = document.createElement("button");
+    add.className = "addshot"; add.textContent = "＋";
+    add.addEventListener("click", function(){ pickImage(function(file){ addShot(file); }); });
+    shotsEl.appendChild(add);
+  }
+  function replaceShot(idx, file){
+    var key = "blob:shot-" + Date.now() + "-" + idx;
+    idbSet(key, file).then(function(){
+      var list = getShotList();
+      var old = list[idx];
+      list[idx] = key; saveShotList(list);
+      if(old && old.indexOf("blob:") === 0) idbDel(old);
+      renderShots(); toast("画像を差し替えました");
+    });
+  }
+  function addShot(file){
+    var key = "blob:shot-" + Date.now() + "-new";
+    idbSet(key, file).then(function(){
+      var list = getShotList(); list.push(key); saveShotList(list);
+      renderShots(); toast("画像を追加しました");
+    });
+  }
+  function removeShot(idx){
+    var list = getShotList();
+    var old = list[idx];
+    list.splice(idx, 1); saveShotList(list);
+    if(old && old.indexOf("blob:") === 0) idbDel(old);
+    renderShots(); toast("画像を削除しました");
+  }
 
-/* ---------- icon ---------- */
-function applyIcon(){
-if(G.icon){document.getElementById("appIcon").src=G.icon;document.getElementById("miniIcon").src=G.icon;}
-idbGet("blob:appicon").then(function(blob){
-if(blob){
-var url = URL.createObjectURL(blob);
-document.getElementById("appIcon").src = url;
-document.getElementById("miniIcon").src = url;
-}
-});
-}
+  function applyIcon(){
+    if(G.icon){
+      document.getElementById("appIcon").src = G.icon;
+      document.getElementById("miniIcon").src = G.icon;
+    }
+    idbGet("blob:appicon").then(function(blob){
+      if(blob){
+        var url = URL.createObjectURL(blob);
+        document.getElementById("appIcon").src = url;
+        document.getElementById("miniIcon").src = url;
+      }
+    });
+  }
 
-/* ---------- file picker ---------- */
-var picker = document.getElementById("filePicker");
-var pickCb = null;
-function pickImage(cb){ pickCb = cb; picker.value = ""; picker.click();}
-picker.addEventListener("change", function(){
-if(picker.files && picker.files[0] && pickCb){ pickCb(picker.files[0]);}
-pickCb = null;
-});
-document.querySelector("[data-replace='appIcon']").addEventListener("click", function(){
-pickImage(function(file){
-idbSet("blob:appicon", file).then(function(){ applyIcon(); toast("アイコンを差し替えました");});
-});
-});
-document.getElementById("addShotBtn").addEventListener("click", function(){
-pickImage(function(file){ addShot(file);});
-});
+  var picker = document.getElementById("filePicker");
+  var pickCb = null;
+  function pickImage(cb){ pickCb = cb; picker.value = ""; picker.click(); }
+  picker.addEventListener("change", function(){
+    if(picker.files && picker.files[0] && pickCb){ pickCb(picker.files[0]); }
+    pickCb = null;
+  });
+  document.querySelector("[data-replace='appIcon']").addEventListener("click", function(){
+    pickImage(function(file){
+      idbSet("blob:appicon", file).then(function(){ applyIcon(); toast("アイコンを差し替えました"); });
+    });
+  });
+  document.getElementById("addShotBtn").addEventListener("click", function(){
+    pickImage(function(file){ addShot(file); });
+  });
 
-/* ---------- edit mode ---------- */
-var fab = document.getElementById("editFab");
-function setEditing(on){
-document.body.classList.toggle("editing", on);
-fab.textContent = on? "✓": "✎";
-document.querySelectorAll("[data-edit]").forEach(function(el){
-el.contentEditable = on? "true": "false";
-el.spellcheck = false;
-});
-if(!on){ saveTexts(); syncDupes(); toast("保存しました");}
-}
-fab.addEventListener("click", function(){
-setEditing(!document.body.classList.contains("editing"));
-});
-document.addEventListener("input", function(e){
-if(e.target && e.target.hasAttribute && e.target.hasAttribute("data-edit")){
-saveTexts();
-if(e.target.getAttribute("data-edit") === "appName") syncDupes();
-}
-});
-document.getElementById("resetBtn").addEventListener("click", function(){
-if(!confirm("編集内容をすべて消して、初期状態に戻しますか？")) return;
-try{ localStorage.removeItem(TEXT_KEY); localStorage.removeItem(SHOTS_KEY);}catch(e){}
-idbClear().then(function(){ location.reload();});
-});
+  var fab = document.getElementById("editFab");
+  function setEditing(on){
+    document.body.classList.toggle("editing", on);
+    fab.textContent = on ? "✓" : "✎";
+    document.querySelectorAll("[data-edit]").forEach(function(el){
+      el.contentEditable = on ? "true" : "false";
+      el.spellcheck = false;
+    });
+    if(!on){ saveTexts(); toast("保存しました"); }
+  }
+  fab.addEventListener("click", function(){
+    setEditing(!document.body.classList.contains("editing"));
+  });
+  document.addEventListener("input", function(e){
+    if(e.target && e.target.hasAttribute && e.target.hasAttribute("data-edit")){ saveTexts(); }
+  });
+  document.getElementById("resetBtn").addEventListener("click", function(){
+    if(!confirm("編集内容をすべて消して、初期状態に戻しますか？")) return;
+    try{ localStorage.removeItem(TEXT_KEY); localStorage.removeItem(SHOTS_KEY); }catch(e){}
+    idbClear().then(function(){ location.reload(); });
+  });
 
-/* ---------- description expand ---------- */
-var descWrap = document.getElementById("descWrap");
-var descMore = document.getElementById("descMore");
-descMore.addEventListener("click", function(){
-var clamped = descWrap.classList.toggle("clamped");
-descMore.textContent = clamped? "さらに表示": "閉じる";
-});
+  var descWrap = document.getElementById("descWrap");
+  var descMore = document.getElementById("descMore");
+  descMore.addEventListener("click", function(){
+    var open = descWrap.classList.toggle("open");
+    descMore.textContent = open ? "閉じる" : "さらに表示";
+  });
 
-/* ---------- sticky topbar mini header ---------- */
-var topbar = document.getElementById("topbar");
-window.addEventListener("scroll", function(){
-topbar.classList.toggle("scrolled", window.scrollY > 130);
-}, {passive:true});
+  var topzone = document.getElementById("topzone");
+  window.addEventListener("scroll", function(){
+    topzone.classList.toggle("scrolled", window.scrollY > 120);
+  }, {passive:true});
 
-/* ---------- service worker ---------- */
-if("serviceWorker" in navigator){
-window.addEventListener("load", function(){
-navigator.serviceWorker.register("sw.js").catch(function(){});
-});
-}
+  if("serviceWorker" in navigator){
+    window.addEventListener("load", function(){
+      navigator.serviceWorker.register("sw.js").catch(function(){});
+    });
+  }
 
-/* ---------- init ---------- */
-openDB().then(function(){
-loadTexts();
-renderShots();
-applyIcon();
-});
+  openDB().then(function(){
+    loadTexts();
+    renderShots();
+    applyIcon();
+  });
 })();
 </script>
 </body>
