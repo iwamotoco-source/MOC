@@ -98,7 +98,7 @@ section{padding:18px 20px 0}
 #descWrap{position:relative}
 #descWrap.clamped.body-text{display:-webkit-box; -webkit-line-clamp:9; -webkit-box-orient:vertical; overflow:hidden}
 #descMore{color:var(--blue); font-size:14.5px; background:none;border:none; padding:4px 0; font-family:inherit; cursor:pointer}
-body.editing #descWrap.clamped.body-text{display:block; overflow:visible}
+body.editing #descWrap.clamped .body-text{display:block; overflow:visible}
 body.editing #descMore{display:none}
 /* ratings */
 .rate-flex{display:flex; gap:18px; align-items:flex-start}
@@ -142,7 +142,7 @@ padding:6px 12px; font-family:inherit; cursor:pointer; white-space:nowrap;
 body.editing [data-edit]{outline:1.5px dashed rgba(0,113,227,.55); outline-offset:2px; border-radius:3px; min-height:1em}
 body.editing [data-edit]:focus{outline:2px solid var(--blue)}
 .imgctl{display:none}
-body.editing.imgctl{
+body.editing .imgctl{
 display:flex; gap:6px; position:absolute; right:8px; bottom:8px; z-index:5;
 }
 .imgctl button{
@@ -150,13 +150,13 @@ background:rgba(28,28,30,.88); color:#fff; border:none; border-radius:999px;
 font-size:12px; padding:6px 12px; font-family:inherit; cursor:pointer;
 }
 .iconwrap{position:relative; flex:none}
-body.editing.iconwrap.imgctl{right:auto; left:0; bottom:-30px}
+body.editing .iconwrap .imgctl{right:6px; left:auto; bottom:6px}
 .addshot{
 display:none; flex:none; scroll-snap-align:start; width:120px; aspect-ratio:2796/1290;
 border:2px dashed var(--faint); border-radius:16px; background:#fafafa; color:var(--sub);
 font-size:26px; cursor:pointer; align-self:flex-start;
 }
-body.editing.addshot{display:block}
+body.editing .addshot{display:block}
 .hiddenfile{display:none}
 .toast{
 position:fixed; left:50%; transform:translateX(-50%) translateY(20px); bottom:calc(150px + env(safe-area-inset-bottom));
@@ -482,6 +482,7 @@ renderShots(); toast("画像を削除しました");
 
 /* ---------- icon ---------- */
 function applyIcon(){
+if(G.icon){document.getElementById("appIcon").src=G.icon;document.getElementById("miniIcon").src=G.icon;}
 idbGet("blob:appicon").then(function(blob){
 if(blob){
 var url = URL.createObjectURL(blob);
